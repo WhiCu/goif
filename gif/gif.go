@@ -65,7 +65,6 @@ func U16toBytes(u uint16) []byte {
 
 func BytesToU16(b []byte) uint16 {
 	return uint16(b[1])<<8 | uint16(b[0])
-	//return uint32(b[0])<<24 | uint32(b[1])<<16 | uint32(b[2])<<8 | uint32(b[3])
 }
 
 func GIFFromFile(file *os.File) *GIF {
@@ -96,13 +95,6 @@ func GIFFromFile(file *os.File) *GIF {
 		gif.Palette = pallette
 
 		images := []*image.ImageData{}
-
-		// position = 45
-		// size := data[position+2]
-		// fmt.Printf("%02X %d - ", data[position+1], size)
-		// for _, value := range data[position+3 : position+3+int(size)+1+int(data[position+3+int(size)])] {
-		// 	fmt.Printf("%02X ", value)
-		// }
 
 		counter := 0
 		for data[position] != 0x3B && counter < 10 {
@@ -151,28 +143,8 @@ func GIFFromFile(file *os.File) *GIF {
 		}
 
 		gif.ImageData = images
-		//gif.Extension = gce.GCEsFromBytes(data[16+BytesToU16(data[14:16])*3:])
 
 	}
 	return &gif
 }
 
-// data, err := io.ReadAll(file)
-// if err != nil {
-// 	panic(err)
-// }
-
-// var png PNG
-
-// if bytes.Equal(data[:8], header.New().StandardBytes()) && bytes.Equal(data[len(data)-12:], chunk.StandardIEND()) {
-// 	png = PNG{
-// 		Header: header.New(),
-// 		IHDR:   chunk.IHDRFromBytes(data[8:33]),
-// 		IDAT:   chunk.ChunksFromBytes(data[33 : len(data)-12]),
-// 		IEND:   chunk.NewIEND(),
-// 	}
-// } else {
-// 	panic(fmt.Sprintf("File %s is not a PNG file", file.Name()))
-// }
-
-// return &png
